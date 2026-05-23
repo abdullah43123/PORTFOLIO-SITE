@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useEffect} from 'react'
 import {
   Box, Container, Typography, Grid, TextField,
   Button, CircularProgress
@@ -14,7 +14,13 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import emailjs from '@emailjs/browser'
+
+// ─── EmailJS config (values loaded from .env) ────────────────────────────────
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAIL_JS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY
+// ─────────────────────────────────────────────────────────────────────────────
 
 const schema = yup.object({
   name: yup
@@ -39,19 +45,21 @@ const schema = yup.object({
 })
 
 const contactInfo = [
-  { icon: <EmailIcon />,    label: 'Email',    value: 'hello@abdullah.dev',  color: '#6C63FF' },
-  { icon: <PhoneIcon />,    label: 'Phone',    value: '+1 (555) 000-0000',   color: '#FF6584' },
-  { icon: <LocationOnIcon />, label: 'Location', value: 'Remote — Worldwide', color: '#43E97B' },
+  { icon: <EmailIcon />,    label: 'Email',    value: 'aabdullahaslam91@gmail.com',  color: '#6C63FF' },
+  { icon: <PhoneIcon />,    label: 'Phone',    value: '0304-2506189',   color: '#FF6584' },
+  { icon: <LocationOnIcon />, label: 'Location', value: 'Karachi Pakistan', color: '#43E97B' },
 ]
 
 const socials = [
-  { icon: <GitHubIcon />,   href: 'https://github.com',   label: 'GitHub',   color: '#E8E8F0' },
-  { icon: <LinkedInIcon />, href: 'https://linkedin.com', label: 'LinkedIn', color: '#0A66C2' },
-  { icon: <TwitterIcon />,  href: 'https://twitter.com',  label: 'Twitter',  color: '#1DA1F2' },
+  { icon: <GitHubIcon />,   href: 'https://github.com/abdullah43123',   label: 'GitHub',   color: '#E8E8F0' },
+  { icon: <LinkedInIcon />, href: 'https://www.linkedin.com/in/abdullah-aslam-464a37229/', label: 'LinkedIn', color: '#0A66C2' },
+  // { icon: <TwitterIcon />,  href: 'https://twitter.com',  label: 'Twitter',  color: '#1DA1F2' },
 ]
 
 export default function Contact() {
+
   const [loading, setLoading] = useState(false)
+
 
   const {
     register,
@@ -64,29 +72,46 @@ export default function Contact() {
     setLoading(true)
     toast.loading('Sending your message...', { id: 'send' })
 
-    // Simulate API call
-    await new Promise(r => setTimeout(r, 2000))
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name:    data.name,
+          from_email:   data.email,
+          subject:      data.subject,
+          message:      data.message,
+          reply_to:     data.email,
+        },
+        EMAILJS_PUBLIC_KEY
+      )
 
-    setLoading(false)
-    toast.dismiss('send')
+      toast.dismiss('send')
+      setLoading(false)
 
-    Swal.fire({
-      title: '<span style="color:#6C63FF">Message Sent! 🎉</span>',
-      html: `
-        <p style="color:#8888AA;line-height:1.8">
-          Thanks <strong style="color:#E8E8F0">${data.name}</strong>! I've received your message and will get back to you at
-          <strong style="color:#6C63FF"> ${data.email}</strong> within 24 hours.
-        </p>
-      `,
-      background: '#13131A',
-      color: '#E8E8F0',
-      confirmButtonText: 'Awesome!',
-      confirmButtonColor: '#6C63FF',
-      icon: 'success',
-      iconColor: '#6C63FF',
-    })
+      Swal.fire({
+        title: '<span style="color:#6C63FF">Message Sent! 🎉</span>',
+        html: `
+          <p style="color:#8888AA;line-height:1.8">
+            Thanks <strong style="color:#E8E8F0">${data.name}</strong>! I've received your message and will get back to you at
+            <strong style="color:#6C63FF"> ${data.email}</strong> within 24 hours.
+          </p>
+        `,
+        background: '#13131A',
+        color: '#E8E8F0',
+        confirmButtonText: 'Awesome!',
+        confirmButtonColor: '#6C63FF',
+        icon: 'success',
+        iconColor: '#6C63FF',
+      })
 
-    reset()
+      reset()
+    } catch (error) {
+      toast.dismiss('send')
+      setLoading(false)
+      console.error('EmailJS error:', error)
+      toast.error('Failed to send message. Please try again or email me directly.')
+    }
   }
 
   return (

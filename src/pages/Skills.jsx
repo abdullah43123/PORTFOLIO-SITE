@@ -25,9 +25,9 @@ const skillCategories = [
       { name: 'Node.js',    level: 88 },
       { name: 'Express.js', level: 85 },
       { name: 'REST APIs',  level: 92 },
-      { name: 'GraphQL',    level: 75 },
-      { name: 'Python',     level: 70 },
-      { name: 'PHP',        level: 65 },
+      // { name: 'GraphQL',    level: 75 },
+      { name: 'Python',     level: 65 },
+      // { name: 'PHP',        level: 65 },
     ],
   },
   {
@@ -38,7 +38,7 @@ const skillCategories = [
       { name: 'MongoDB',    level: 85 },
       { name: 'PostgreSQL', level: 80 },
       { name: 'MySQL',      level: 78 },
-      { name: 'Redis',      level: 70 },
+      // { name: 'Redis',      level: 70 },
       { name: 'Firebase',   level: 82 },
       { name: 'Supabase',   level: 72 },
     ],
@@ -50,8 +50,8 @@ const skillCategories = [
     skills: [
       { name: 'Git/GitHub', level: 92 },
       { name: 'Docker',     level: 75 },
-      { name: 'AWS',        level: 70 },
-      { name: 'CI/CD',      level: 72 },
+      { name: 'Vercel',        level: 70 },
+      // { name: 'CI/CD',      level: 72 },
       { name: 'Linux',      level: 78 },
       { name: 'Vite',       level: 90 },
     ],
@@ -60,7 +60,7 @@ const skillCategories = [
 
 const techStack = [
   'React', 'TypeScript', 'Node.js', 'MongoDB', 'PostgreSQL',
-  'Docker', 'AWS', 'GraphQL', 'Redis', 'Next.js',
+  'Docker', 'DSA', 'GraphQL', 'Next.js',
   'Tailwind', 'MUI', 'Git', 'Figma', 'Vite',
   'Express', 'Firebase', 'Supabase', 'Python', 'Linux',
 ]
@@ -231,7 +231,7 @@ export default function Skills() {
             Always expanding my skill set with the latest technologies.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-            {['Rust', 'Web3', 'Three.js', 'AI/ML', 'Kubernetes'].map((t, i) => (
+            {['Rust', 'OpenAI API', 'MCP SERVER', 'AI/ML', 'Jira'].map((t, i) => (
               <Chip
                 key={t}
                 label={`🔥 ${t}`}
