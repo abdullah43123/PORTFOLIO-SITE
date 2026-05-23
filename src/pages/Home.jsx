@@ -188,8 +188,9 @@ export default function Home() {
                   </Button>
                   <Button
                     component="a"
-                    href="/resume.pdf"
-                    download
+                    href="/ABDULLAH RESUME.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     variant="outlined"
                     size="large"
                     startIcon={<DownloadIcon />}
